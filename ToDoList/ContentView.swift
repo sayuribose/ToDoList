@@ -33,26 +33,32 @@ struct ContentView: View {
                 }
             }//hstack
             
-            
-            
             Spacer()
             
             List{//display lists of tasks
                 ForEach(ToDos) { toDoItem in
-                    Text(toDoItem.title)
+                    if ToDoItem.isImportant {
+                        Text("‼️" + ToDoItem.title)
+                    } else {
+                        Text(ToDoItem.title)
+                    }
                     
                 }
             }
+            .listStyle(.plain)
         
             if showNewTask {
-                NewToDo()
+                NewToDo(showNewTask: $showNewTask, ToDoItem: ToDoItem(title: "", isImportant: false))
             }
             
         }//vstack
+        
+        
         .padding()
     }//someview
 }//contentview
 
 #Preview {
     ContentView()
+        .modelContainer(for: ToDoItem.self, inMemory: true)
 }
